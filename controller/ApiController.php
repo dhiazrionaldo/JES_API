@@ -7,14 +7,14 @@ require_once 'utils/DatabaseConnection.php';
 class StaffController extends DatabaseConnection {
     public function getAllStaff() {
         $dept = "Services";
-        $sql = "SELECT * FROM staff WHERE Department LIKE CONCAT('%', '$dept', '%') ";
+        $sql = "SELECT * FROM VIEW_RMS_STAFF"; //WHERE Department LIKE CONCAT('%', '$dept', '%') ";
         $result = $this->conn->query($sql);
         $staffs = array();
 
         if ($result) { // Check if the query was successful
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $staff = new Staff($row['staffId'], $row['Name'], $row['Department'], $row['Role'], $row['PhoneNo'], $row['Email'], $row['Station'], $row['Status']);
+                    $staff = new Staff($row['EMP_NO'], $row['NAME'], $row['DEPARTEMENT'], $row['ROLE'], $row['PHONE'], $row['EMAIL'], $row['STATION'], $row['EMPLOYEE_STATUS']);
                     $staffs[] = $staff;
                 }
             }
@@ -28,7 +28,7 @@ class StaffController extends DatabaseConnection {
 
 class ClockInOutController extends DatabaseConnection {
     public function getAllAttendance() {
-        $sql = "SELECT * FROM attendance WHERE CAST(ClockIn AS DATE) = CURRENT_DATE()";
+        $sql = "SELECT * FROM VIEW_RMS_ATTANDANCE   WHERE CAST(ClockIn AS DATE) = CURRENT_DATE()";
         $result = $this->conn->query($sql);
         $attendances = array();
 
